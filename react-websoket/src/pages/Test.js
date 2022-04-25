@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate ,Link } from 'react-router-dom'
-const ChartRoom = (props) => {
-  let navigate = useNavigate()
+const Test = (props) => {
   return (
     <div>
-      ChartRoom
+      404
     </div>
   )
 }
-export default ChartRoom;
+export default Test;

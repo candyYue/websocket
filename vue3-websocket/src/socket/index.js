@@ -1,4 +1,5 @@
-import store from "../store";
+import store from '../store'
+
 class Ws {
   constructor(url){
     this.ws = new WebSocket(url)
@@ -16,26 +17,21 @@ class Ws {
     // 客户端接收服务端发送的消息
     this.ws.onmessage = (event) => {
       console.log('接受服务器信息', event);
-      const data = JSON.parse(event.data);
-      switch (data.type) {
-        case 'USER_INFO':
-          this.getUserInfo(data);
-          break;
-        case 'UPDATE_USER_LIST':
-          this.getUserList(data);
-          break;
-        case 'BROADCAST_MESSAGE':
-          this.receiveMessage(data);
-          break;
-        case 'PONG':
-          this.resetHeartbeat();
-          break;
-        case 'TASK':
-          this.timedTask();
-          break;
-        default:
-          break;
-      }
+      const data = JSON.parse(event.data);//存store
+      store.dispatch('getUserList', data)
+      // switch (data.type) {
+      //   case 'UPDATE_USER_LIST':
+      //     this.getUserList(data);
+      //     break;
+      //   case 'PONG':
+      //     this.resetHeartbeat();
+      //     break;
+      //   case 'TASK':
+      //     this.timedTask();
+      //     break;
+      //   default:
+      //     break;
+      // }
     }
     // 连接关闭后的回调函数
     this.ws.onclose = (event) => {
@@ -57,8 +53,7 @@ class Ws {
   }
 
   getUserInfo() {
-    const userInfo = store.getState()
-    console.log(userInfo)
+    const userInfo = {}
     return userInfo? userInfo : undefined;
   }
   getUserList(){

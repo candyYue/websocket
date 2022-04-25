@@ -1,30 +1,37 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route ,useRoutes,useNavigate} from 'react-router-dom';
 import Login from './pages/Login';
 import ChartRoom from './pages/ChartRoom';
 import { Provider} from 'react-redux'
 import React, { useState,useEffect, createContext } from "react";
+import routers from './router'
 import store from './store'
 import Ws from "./socket";
 
 export const WsContext = createContext('');
-let socket = new Ws('ws://localhost:3131/websocket/getsystelist')
+
 function App() {
-  
+  let socket = new Ws('ws://localhost:3131/websocket/getsystelist')
   useEffect(() => {
-    socket = new Ws('ws://localhost:3131/websocket/getsystelist')
+    // setSocket = new Ws('ws://localhost:3131/websocket/getsystelist')
     socket.initWs()
   }, [])
+
+  const GetRoutes = () => useRoutes(routers); //一定要是函数内
   return (
     <Provider store={store}>
       <WsContext.Provider value={socket}>
         <div className="App">
-        <Login/>
-          {/* <BrowserRouter>
-              <Routes>
-                  <Route path='/login' element={Login()} />
-                  <Route path='/chartroom' element={ChartRoom()} />
-              </Routes>
-          </BrowserRouter> */}
+        
+          <BrowserRouter>
+            <Login/>
+            <ChartRoom/>
+            <Routes>
+              {routers.map((item,index)=>{
+                return (<Route key={index} path={item.path} element={item.component()} />)
+              })}
+            </Routes>
+              {/* <GetRoutes /> */}
+          </BrowserRouter>
         </div>
       </WsContext.Provider>
     </Provider>
