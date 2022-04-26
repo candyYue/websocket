@@ -1,8 +1,9 @@
 <template>
-  <ul>
+  <ul class="friend-list">
+    <p>好友列表</p>
     <li v-for="(item,index) in store.state.userlist" :key="index"
      @click="changeFriend(item)">
-      {{item.name}}
+      {{item.name}}{{item.ischart}}
     </li>
   </ul>
 </template>
@@ -12,7 +13,6 @@ import { reactive, toRefs ,onMounted } from 'vue'
 import { useStore } from 'vuex'
 const store = useStore()
 const changeFriend = (item)=>{
-  item.ischart = true
   const opt = {
     type:'change',
     list: [item]
@@ -22,6 +22,9 @@ const changeFriend = (item)=>{
 
 </script>
 
-<style lang="scss">
-
+<style lang="css">
+.friend-list{
+  width: 200px;
+  height: 100%;
+}
 </style>

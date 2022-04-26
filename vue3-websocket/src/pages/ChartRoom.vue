@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="chart-room-page">
     <FriendList/>
     <chart-card/>
   </div>
@@ -18,6 +18,16 @@ onMounted(()=>{
 })
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="css">
+  .chart-room-page{
+    border: 1px solid #ccc;
+    width:700px;
+    height: 500px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    background: #fff;
+    display: flex
+  }
 </style>

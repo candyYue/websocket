@@ -9,21 +9,25 @@ export default createStore({
     socket:null,
     userlist: [],
     userInfo: {},
-    friend: {}
+    friendInfo: {}
   },
   getters: {
     socket: state => state.socket,
     userlist: state => state.userlist,
     userInfo: state => state.userInfo,
-    friend: state => state.friend,
+    friendInfo: state => state.friendInfo,
   },
   mutations: {
     getUserList (state, value) {
-      state.userlist = value.state.filter(v=>!v.islogin)
-      const friend = value.state.filter(v=>v.ischart)||[]
-      state.friend = friend[0]
-      const Info = value.state.filter(v=>v.islogin)||[]
-      state.userInfo = Info[0]
+      if(value.state.opt&&value.state.opt.loginInfo){
+        state.userInfo = value.state.opt.loginInfo
+      }
+      if(value.state.opt&&value.state.opt.friendInfo){
+        state.friendInfo = value.state.opt.friendInfo
+      }
+      console.log(state.friendInfo)
+      state.userlist = value.state.list.filter(v=>state.userInfo&&(v.name!==state.userInfo.name))  
+      console.log(state.userlist)
     },
     getSocket(state, value){
       state.socket = value.state
