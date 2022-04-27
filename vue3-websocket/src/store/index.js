@@ -7,12 +7,14 @@ export default createStore({
   },
   state: {
     socket:null,
+    siderlist: [],
     userlist: [],
     userInfo: {},
     friendInfo: {}
   },
   getters: {
     socket: state => state.socket,
+    siderlist: state => state.siderlist,
     userlist: state => state.userlist,
     userInfo: state => state.userInfo,
     friendInfo: state => state.friendInfo,
@@ -25,9 +27,8 @@ export default createStore({
       if(value.state.opt&&value.state.opt.friendInfo){
         state.friendInfo = value.state.opt.friendInfo
       }
-      console.log(state.friendInfo)
-      state.userlist = value.state.list.filter(v=>state.userInfo&&(v.name!==state.userInfo.name))  
-      console.log(state.userlist)
+      state.siderlist = value.state.list.filter(v=>state.userInfo&&(v.name!==state.userInfo.name))
+      state.userlist = value.state.list
     },
     getSocket(state, value){
       state.socket = value.state

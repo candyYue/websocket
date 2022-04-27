@@ -42,13 +42,16 @@ const changefriend = (ws,val)=>{
   broadcast('UPDATE_USER_LIST', { friendInfo })
 }
 const addMessage = (ws,val)=>{
+  //ws.friendInfo 当前聊天对象
   list.forEach((v,index)=>{
-    v.message = v.message || []
+    v.message = v.message || {}
+    v.message[ws.loginInfo.name] = v.message[ws.loginInfo.name] || []
+    v.message[ws.friendInfo.name] = v.message[ws.friendInfo.name] || []
     if(ws.friendInfo&&v.name===ws.friendInfo.name){
-      v.message = [...v.message, {name:v.name,message: val}]
+      v.message[ws.loginInfo.name]= [...v.message[ws.loginInfo.name], {name:ws.loginInfo.name, message:val}]
     }
     if(ws.loginInfo&&v.name===ws.loginInfo.name){
-      v.message = [...v.message, {name:v.name,message: val}]
+      v.message[ws.friendInfo.name] = [...v.message[ws.friendInfo.name], {name:v.name, message:val}]
     }
   })
   clients.forEach((client) => {

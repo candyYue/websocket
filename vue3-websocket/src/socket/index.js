@@ -17,7 +17,6 @@ class Ws {
     // 客户端接收服务端发送的消息
     this.ws.onmessage = (event) => {
       const data = JSON.parse(event.data); //存store
-      console.log(data)
       switch (data.type) {
         case 'UPDATE_USER_LIST':
           store.dispatch('getUserList', data)

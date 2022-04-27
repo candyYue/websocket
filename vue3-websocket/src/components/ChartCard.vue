@@ -3,9 +3,8 @@
     <p>我是{{store.state.userInfo?store.state.userInfo.name:''}}</p>
     <div class="card-top">
       <p class="card-top-name">正在跟{{ store.state.friendInfo?store.state.friendInfo.name:''}}聊天</p>
-      <ul class="card-top-message" v-for="(item,index) in (store.state.friendInfo?store.state.friendInfo.message:[])" :key="index">
-        <li v-if="item.name===store.state.friendInfo.name">{{item.vale}}</li>
-        <li v-if="item.name===store.state.userInfo.name">{{item.vale}}</li>
+      <ul class="card-top-message" v-for="(item,index) in chartContent" :key="index">
+        <li :class="item.name===store.state.userInfo.name?'u-item':'f-item'">{{item.name}}:{{item.message}}</li>
       </ul>
     </div>
     <div class="card-bottom">
@@ -22,20 +21,19 @@
 </template>
 
 <script setup>
-import { ref ,reactive,watch } from "vue";
+import { ref ,reactive,watch ,onMounted} from "vue";
 import { useStore } from 'vuex'
 import { Picker } from "emoji-mart-vue";
 const textarea = ref('')
-const chartFriend = reactive({
-  name:'',
-  message:[]
-})
+const chartContent = ref([])
 const store = useStore()
 watch(
   () => store.state.userlist,
   (val) => {
-    // const item = val.filter(v=>v.ischart)
-    // console.log(item)
+    const item = store&&store.state.userInfo?val.filter(v=>store.state.userInfo.name===v.name):[]
+    if(item&&item.length&&item[0].message){
+      chartContent.value = item[0].message[store.state.friendInfo.name]||[]
+    }
   },
   { deep: true }
 )
@@ -50,6 +48,8 @@ const sendMessage = ()=>{
   store.state.socket.send(JSON.stringify(opt))
   textarea.value = ''
 }
+onMounted(()=>{
+})
 </script>
 
 <style lang="css">
@@ -66,11 +66,11 @@ const sendMessage = ()=>{
 .card-top-name{
   height:65px
 }
-.message-he{
-  text-align: left;
-}
-.message-u{
+.u-item{
   text-align: right;
+}
+.f-item{
+  text-align: left;
 }
 .card-bottom{
   position: absolute;

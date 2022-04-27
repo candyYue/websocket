@@ -14,7 +14,6 @@ import ChartCard from '../components/ChartCard.vue'
 const store = useStore()
 
 onMounted(()=>{
-  console.log(store)
 })
 </script>
 

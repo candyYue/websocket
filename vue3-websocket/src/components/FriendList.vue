@@ -1,7 +1,7 @@
 <template>
   <ul class="friend-list">
     <p>好友列表</p>
-    <li v-for="(item,index) in store.state.userlist" :key="index"
+    <li v-for="(item,index) in store.state.siderlist" :key="index"
      @click="changeFriend(item)">
       {{item.name}}{{item.ischart}}
     </li>
